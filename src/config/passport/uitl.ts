@@ -11,7 +11,6 @@ passport.serializeUser((userId, done) => {
 
 passport.deserializeUser(function (id, done) {
     if (id == user.id) {
-        console.log({ id });
         return done(null, user);
     }
     done(new Error('user with given id not found'));

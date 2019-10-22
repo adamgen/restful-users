@@ -1,9 +1,9 @@
 import express from 'express';
 import passport from 'passport';
 import { expressPassportSetupMiddleware } from './init-middleware';
-import './passport/serialize';
-import './passport/local';
-import './passport/facebook';
+import './config/passport/uitl';
+import './config/passport/local';
+import './config/passport/facebook';
 
 const app = express();
 
