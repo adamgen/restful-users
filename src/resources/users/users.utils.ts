@@ -1,6 +1,21 @@
 import bcrypt from 'bcrypt-nodejs';
 import sgMail from '@sendgrid/mail';
+import jwt from 'jsonwebtoken';
 
+export function signToken(obj: any) {
+    if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined');
+    }
+    return jwt.sign(obj, process.env.JWT_SECRET);
+}
+
+export function verifyToken(token: string): unknown {
+    if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined');
+    }
+    console.log({ token });
+    return jwt.verify(token, process.env.JWT_SECRET);
+}
 
 export function hashPassword(password: string) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -22,7 +37,7 @@ export function sendEmail(msg: {
     text?: string;
     html: string;
 }) {
-    if(!process.env.SENDGRID_API_KEY){
+    if (!process.env.SENDGRID_API_KEY) {
         throw new Error('SENDGRID_API_KEY not found');
     }
     console.log(process.env.SENDGRID_API_KEY);

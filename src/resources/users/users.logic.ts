@@ -1,5 +1,6 @@
 import { User } from "./users.schema";
-import { hashPassword, isEmailString, sendEmail } from "./users.utils";
+import { hashPassword, isEmailString, sendEmail, signToken, verifyToken } from "./users.utils";
+import { Request } from "express";
 
 export const getUsers = async function getUsers() {
     const result = await User.find().catch(a => a);
@@ -29,6 +30,7 @@ export const postUsers = async function postUsers(user: any) {
         password,
     });
 
+    const token = signToken({ email: user.email });
 
     sendEmail({
         to: user.email,
@@ -38,7 +40,7 @@ export const postUsers = async function postUsers(user: any) {
         html: `
 <h1>Hi!</h1>
 
-You've registered as a user to our system, please approve by visiting <a href="">this link</a>
+You've registered as a user to our system, please approve by visiting <a href="http://${process.env.APP_URL}/users?token=${token}">this link</a>
 `,
     })
         .then(res => {
@@ -50,4 +52,35 @@ You've registered as a user to our system, please approve by visiting <a href=""
 
 
     return { newUser };
+}
+
+export const deleteUsers = async function deleteUsers(req: Request) {
+    if (!req.isAuthenticated()) {
+        throw new Error('User is not authenticated');
+    }
+    const user = await User.findById(req.user);
+    if (user.email !== req.query.email) {
+        throw new Error('unauthorized request');
+    }
+
+    return await user.remove();
+}
+
+export const validateEmailByToken = async function validateEmailByToken(token: string) {
+    if (!token) {
+        false;
+    }
+
+    const decoded = verifyToken(token);
+    if (typeof decoded !== 'object') {
+        throw new Error('Token is not valid');
+    }
+    const { email } = (decoded as any);
+
+    if (typeof email !== 'string' || !isEmailString(email)) {
+        throw new Error('The token content does not have a valid email');
+    }
+
+    const validatedUser = User.find({ email });
+    await validatedUser.update({ emailValidated: true });
 }
