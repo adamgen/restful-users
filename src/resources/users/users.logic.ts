@@ -1,5 +1,5 @@
 import { User } from "./users.schema";
-import { hashPassword, isEmailString, sendEmail, signToken, verifyToken } from "./users.utils";
+import { hashPassword, isEmailString, sendEmail, signToken, verifyToken, comparePasswords } from "./users.utils";
 import { Request } from "express";
 
 export const getUsers = async function getUsers() {
@@ -52,6 +52,23 @@ You've registered as a user to our system, please approve by visiting <a href="h
 
 
     return { newUser };
+}
+
+export const putUsers = async function putUsers(req: Request) {
+    const { email, password, oldPassword } = req.body;
+    const promise = User.findById(req.user);
+    const user = await promise;
+
+    if (isEmailString(email)) {
+        user.email = email;
+    }
+
+    if (password && oldPassword && comparePasswords(oldPassword, user.password)) {
+        user.password = hashPassword(password);
+    }
+
+    await user.update(user);
+    return user;
 }
 
 export const deleteUsers = async function deleteUsers(req: Request) {

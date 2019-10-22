@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { getUsers, postUsers, validateEmailByToken, deleteUsers } from './users.logic';
+import { getUsers, postUsers, validateEmailByToken, deleteUsers, putUsers } from './users.logic';
 import { verifyToken, isEmailString } from './users.utils';
 
 export async function handleGetUsersValidateToken(req: Request, res: Response, next: NextFunction) {
@@ -26,6 +26,13 @@ export async function handlePostUsers(req: Request, res: Response, next: NextFun
             console.log(a);
             res.json(a.message);
         });
+    res.json(jsonResult);
+};
+
+export async function handlePutUsers(req: Request, res: Response, next: NextFunction) {
+    const jsonResult = await putUsers(req)
+        .catch(err => err);
+
     res.json(jsonResult);
 };
 
