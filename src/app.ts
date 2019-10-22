@@ -4,11 +4,14 @@ import { expressPassportSetupMiddleware } from './init-middleware';
 import './config/passport/uitl';
 import './config/passport/local';
 import './config/passport/facebook';
+import './config/mongo';
+import './config/dotenv';
+import { router } from './resources/router';
 
 const app = express();
 
 app.use(expressPassportSetupMiddleware());
-
+app.use(router);
 app.post('/login', passport.authenticate('local'), function (req, res, next) {
     res.json('login with success');
 });
