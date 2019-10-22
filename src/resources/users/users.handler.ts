@@ -5,10 +5,14 @@ import { verifyToken, isEmailString } from './users.utils';
 
 export async function handleGetUsersValidateToken(req: Request, res: Response, next: NextFunction) {
     const { token } = req.query;
-    await validateEmailByToken(token)
+    const user = await validateEmailByToken(token)
         .catch(err => {
             res.json(err);
         });
+
+    if (user) {
+        return req.login(user._id, next);
+    }
 
     next();
 };
@@ -21,12 +25,19 @@ export async function handleGetUsers(req: Request, res: Response, next: NextFunc
 
 export async function handlePostUsers(req: Request, res: Response, next: NextFunction) {
     const { body } = req;
-    const jsonResult = await postUsers(body)
-        .catch(a => {
-            console.log(a);
-            res.json(a.message);
-        });
-    res.json(jsonResult);
+    const promise = postUsers(body)
+    promise.catch(a => {
+        console.log(a);
+        res.json(a.message);
+    });
+    const user = await promise;
+    req.login(user._id, err => {
+        if (err) {
+            return res.json(err);
+        }
+        res.json(user);
+
+    });
 };
 
 export async function handlePutUsers(req: Request, res: Response, next: NextFunction) {

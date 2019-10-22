@@ -51,7 +51,7 @@ You've registered as a user to our system, please approve by visiting <a href="h
         });
 
 
-    return { newUser };
+    return newUser;
 }
 
 export const putUsers = async function putUsers(req: Request) {
@@ -98,6 +98,11 @@ export const validateEmailByToken = async function validateEmailByToken(token: s
         throw new Error('The token content does not have a valid email');
     }
 
-    const validatedUser = User.find({ email });
-    await validatedUser.update({ emailValidated: true });
+    const promise = User.findOne({ email });
+    const user = await promise;
+    promise.catch(err => {
+        console.log(err);
+    });
+    await user.update({ emailValidated: true });
+    return user;
 }
