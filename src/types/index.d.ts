@@ -5,4 +5,8 @@ declare namespace Express {
         name: string;
         age: number;
     }
+
+    interface Request {
+        data?: any;
+    }
 }

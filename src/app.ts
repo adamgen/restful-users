@@ -22,8 +22,7 @@ app.get('/me', function (req, res, next) {
 
 app.listen(3001);
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback',
+app.get('/auth/facebook',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function (req, res, next) {
         if (req.isAuthenticated()) {
