@@ -1,14 +1,18 @@
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import { user } from './user';
+import { User } from '../../resources/users/users.schema';
+import { comparePasswords } from '../../resources/users/users.utils';
 
-passport.use(new passportLocal.Strategy(function passportLocalCallback(username, password, next) {
-    if (user.name !== username) {
-        return next(null, false, { message: 'Incorrect username.' });
+passport.use(new passportLocal.Strategy(async function passportLocalCallback(username, password, next) {
+    const promise = User.findOne({ email: username });
+    promise.catch(next);
+    const user = await promise;
+    if (!user) {
+        return next(new Error('User password mismatch'));
     }
-    if (!user.validPassword(password)) {
-        return next(null, false, { message: 'Incorrect password.' });
+    if (!comparePasswords(password, user.password)) {
+        return next(new Error('User password mismatch'));
     }
 
-    return next(null, user.id);
+    return next(null, user._id);
 }));
