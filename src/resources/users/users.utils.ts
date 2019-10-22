@@ -13,7 +13,6 @@ export function verifyToken(token: string): unknown {
     if (!process.env.JWT_SECRET) {
         throw new Error('JWT_SECRET is not defined');
     }
-    console.log({ token });
     return jwt.verify(token, process.env.JWT_SECRET);
 }
 
