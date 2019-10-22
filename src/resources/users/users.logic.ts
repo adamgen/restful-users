@@ -2,8 +2,8 @@ import { User } from "./users.schema";
 import { hashPassword, isEmailString, sendEmail, signToken, verifyToken, comparePasswords } from "./users.utils";
 import { Request } from "express";
 
-export const getUsers = async function getUsers() {
-    const result = await User.find().catch(a => a);
+export const getUsers = async function getUsers(req: Request) {
+    const result = await User.findById(req.user).catch(a => a);
     return result;
 }
 
@@ -85,7 +85,7 @@ export const deleteUsers = async function deleteUsers(req: Request) {
 
 export const validateEmailByToken = async function validateEmailByToken(token: string) {
     if (!token) {
-        false;
+        return false;
     }
 
     const decoded = verifyToken(token);

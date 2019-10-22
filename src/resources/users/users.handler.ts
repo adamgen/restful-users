@@ -15,7 +15,7 @@ export async function handleGetUsersValidateToken(req: Request, res: Response, n
 
 export async function handleGetUsers(req: Request, res: Response, next: NextFunction) {
     const { search } = req.query;
-    const jsonResult = await getUsers().catch(a => a);
+    const jsonResult = await getUsers(req).catch(a => a);
     res.send(jsonResult);
 };
 
