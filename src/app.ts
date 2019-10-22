@@ -7,6 +7,7 @@ import './config/passport/facebook';
 import './config/mongo';
 import './config/dotenv';
 import { router } from './resources/router';
+import { User } from './resources/users/users.schema';
 
 const app = express();
 
@@ -16,9 +17,9 @@ app.get('/session', passport.authenticate('local'), function (req, res, next) {
     res.json('login with success');
 });
 
-app.get('/me', function (req, res, next) {
+app.get('/me', async function (req, res, next) {
     if (req.isAuthenticated()) {
-        return res.json(req.user);
+        return res.json(await User.findById(req.user));
     }
     res.json('no authenticated');
 });
