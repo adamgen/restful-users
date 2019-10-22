@@ -98,6 +98,25 @@ const customProfile = async function emailAuth(app: Express, userModel, config) 
 }
 ```
 
+## Authentication best practices
+
+- https://cloud.google.com/blog/products/gcp/12-best-practices-for-user-account
+- https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Authentication_Cheat_Sheet.md
+- https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Forgot_Password_Cheat_Sheet.md
+
+## A truly RESTful structure for authentication endpoints
+
+| resource    | method    | business action     |
+|-------------|-----------|---------------------|
+| `/user`     | `POST`    | register            |
+| `/user`     | `PUT`     | approve email       |
+| `/user`     | `PUT`     | update              |
+| `/user`     | `GET`     | see profile         |
+| `/user`     | `DELETE`  | delete account      |
+| `/session`  | `POST`    | forgot password     |
+| `/session`  | `GET`     | login               |
+| `/session`  | `DELETE`  | logout              |
+
 ---------------------------------------------
 ---------------------------------------------
 ---------------------------------------------
