@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import { expressPassportSetupMiddleware } from './init-middleware';
-import './config/passport/uitl';
+import './config/passport/util';
 import './config/passport/local';
 import './config/passport/facebook';
 import './config/mongo';
@@ -12,7 +12,7 @@ const app = express();
 
 app.use(expressPassportSetupMiddleware());
 app.use(router);
-app.post('/login', passport.authenticate('local'), function (req, res, next) {
+app.get('/session', passport.authenticate('local'), function (req, res, next) {
     res.json('login with success');
 });
 
