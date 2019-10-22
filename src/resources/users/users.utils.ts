@@ -39,7 +39,6 @@ export function sendEmail(msg: {
     if (!process.env.SENDGRID_API_KEY) {
         throw new Error('SENDGRID_API_KEY not found');
     }
-    console.log(process.env.SENDGRID_API_KEY);
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     return sgMail.send(msg);
 }
