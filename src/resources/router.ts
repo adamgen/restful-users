@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { handleGetUsers, handlePostUsers, handleGetUsersValidateToken, handleDeleteUsers, handlePutUsers } from './users/users.handler';
-import { handleDeleteSession } from './sessions/sessions.handlers';
+import { handleDeleteSession, handleGetSession } from './sessions/sessions.handlers';
+import passport from 'passport';
 
 export const router = Router();
 
@@ -10,4 +11,12 @@ router.post('/users', handlePostUsers);
 router.put('/users', handlePutUsers);
 router.delete('/users', handleDeleteUsers);
 
+router.get('/session', passport.authenticate('local'), handleGetSession);
+router.get('/session/facebook',
+    passport.authenticate('facebook', {
+        failureRedirect: '/login',
+        scope: ['email'],
+    }),
+    handleGetSession,
+);
 router.delete('/sessions', handleDeleteSession);

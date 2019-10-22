@@ -3,6 +3,10 @@ import { hashPassword, isEmailString, sendEmail, signToken, verifyToken, compare
 import { Request } from "express";
 
 export const getUsers = async function getUsers(req: Request) {
+    if (!req.isAuthenticated()) {
+        return false;
+    }
+
     const result = await User.findById(req.user).catch(a => a);
     return result;
 }
