@@ -1,19 +1,26 @@
 import passport from 'passport';
 import passportFacebook from 'passport-facebook';
+import { User } from '../../resources/users/users.schema';
 
 passport.use(new passportFacebook.Strategy({
-<<<<<<< HEAD
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3001/auth/facebook/callback"
-=======
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3001/auth/facebook"
->>>>>>> 05d5fdc... Change the facebook login endpoint
-}, function (accessToken, refreshToken, profile, next) {
-    // if (profile.id.toString() === user.facebookId.toString()) {
-    //     return next(null, user.id);
-    // }
-    next(new Error('no user found with given facebook id'));
+    callbackURL: "http://localhost:3001/auth/facebook",
+    profileFields: ['id', 'emails', 'name'],
+}, async function passportFacebook(accessToken, refreshToken, profile, next) {
+    for (let index = 0; index < profile.emails.length; index++) {
+        const email = profile.emails[index].value;
+        const user = await User.findOne({ email });
+        if (user) {
+            return next(null, user._id);
+        }
+    }
+
+    if (profile.emails.length > 0 && profile.emails[0].value) {
+        const user = await User.create({ email: profile.emails[0].value });
+        return next(null, user._id);
+    }
+
+    const user = await User.create({ facebookId: profile.id });
+    return next(null, user._id);
 }));

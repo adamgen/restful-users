@@ -4,6 +4,7 @@ import { fromSchema } from 'schema.type';
 const schemaObj = { //: SchemaDefinition
     email: String,
     password: String,
+    facebookId: String,
     emailValidated: {
         default: false,
         type: Boolean,

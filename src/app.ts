@@ -26,7 +26,10 @@ app.get('/me', function (req, res, next) {
 app.listen(3001);
 
 app.get('/auth/facebook',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    passport.authenticate('facebook', {
+        failureRedirect: '/login',
+        scope: ['email'],
+    }),
     function (req, res, next) {
         if (req.isAuthenticated()) {
             return res.redirect('/me');
