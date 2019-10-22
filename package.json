@@ -16,6 +16,7 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.1",
     "@types/express-session": "^1.15.14",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/mongoose": "^5.5.22",
     "@types/passport": "^1.0.1",
     "@types/passport-facebook": "^2.1.9",
