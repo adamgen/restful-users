@@ -5,9 +5,10 @@ import expressSession from 'express-session';
 import passport from 'passport';
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
+import { Handler } from 'express';
 const mongoStore = MongoStore(expressSession);
 
-export function expressPassportSetupMiddleware() {
+export function expressPassportSetupMiddleware(): Handler[] {
     return [
         cookieParser(),
         bodyParser.urlencoded({ extended: false }),
