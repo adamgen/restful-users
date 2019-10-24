@@ -4,7 +4,7 @@ import { fromSchema } from 'schema.type';
 const schemaObj = { //: SchemaDefinition
     email: String,
     password: String,
-    facebookId: String,
+    facebookProfile: Schema.Types.Mixed,
     emailValidated: {
         default: false,
         type: Boolean,
