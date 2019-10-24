@@ -11,8 +11,8 @@ router.post('/users', handlePostUsers);
 router.put('/users', handlePutUsers);
 router.delete('/users', handleDeleteUsers);
 
-router.get('/session', passport.authenticate('local'), handleGetSession);
-router.get('/session/facebook',
+router.get('/sessions', passport.authenticate('local'), handleGetSession);
+router.get('/sessions/facebook',
     passport.authenticate('facebook', {
         failureRedirect: '/login',
         scope: ['email'],
