@@ -5,7 +5,7 @@ import { User } from '../../resources/users/users.schema';
 passport.use(new passportFacebook.Strategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3001/auth/facebook",
+    callbackURL: `http://${process.env.API_URL}/sessions/facebook`,
     profileFields: ['id', 'emails', 'name'],
 }, async function passportFacebook(accessToken, refreshToken, profile, next) {
     for (let index = 0; index < profile.emails.length; index++) {
