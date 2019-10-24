@@ -3,7 +3,8 @@ import { postSession } from './sessions.logic';
 
 export const handleGetSession = function handleGetSessionLocal(req: Request, res: Response, next: NextFunction) {
     if (req.isAuthenticated()) {
-        return res.redirect('/users');
+        const redirectUrl = process.env.AUTH_SUCCESS_REDIRECT_PATH || '/users';
+        return res.redirect(redirectUrl + '?fresh-login');
     }
     res.json('no authenticated');
 }
