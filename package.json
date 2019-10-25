@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "start": "ts-node-dev --respawn src/app.ts",
-    "build": "tsc -p tsconfig.json",
-    "build:watch": "tsc -p tsconfig.json -w"
+    "prepublish": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json -w"
   },
   "author": "",
   "main": "./dist",
