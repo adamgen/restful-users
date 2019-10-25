@@ -1,6 +1,6 @@
 {
   "name": "restful-users",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "scripts": {
     "start": "ts-node-dev --respawn src/app.ts",
