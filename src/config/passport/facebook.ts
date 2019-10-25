@@ -6,7 +6,7 @@ passport.use(new passportFacebook.Strategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: `http://${process.env.API_URL}/sessions/facebook`,
-    profileFields: [],
+    profileFields: ['id', 'emails', 'name'],
 }, async function passportFacebook(accessToken, refreshToken, profile, next) {
     for (let index = 0; index < profile.emails.length; index++) {
         const email = profile.emails[index].value;

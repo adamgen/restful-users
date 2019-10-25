@@ -15,7 +15,7 @@ router.get('/sessions', passport.authenticate('local'), handleGetSession);
 router.get('/sessions/facebook',
     passport.authenticate('facebook', {
         failureRedirect: '/login',
-        scope: [],
+        scope: ['email'],
     }),
     handleGetSession,
 );
